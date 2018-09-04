@@ -1,0 +1,24 @@
+/**
+ * Enquiries plugin for Craft CMS
+ *
+ * Notifications Field CSS
+ *
+ * @author    @cole007
+ * @copyright Copyright (c) 2018 @cole007
+ * @link      http://ournameismud.co.uk/
+ * @package   Enquiries
+ * @since     1.0.0
+ */
+
+.instructions-fields {
+	margin: 0 4px;
+	padding: 4px;
+	border: 1px solid #DDD;
+	background-color: #EEE;
+	font-family: courier, monospace;
+	display: inline-block;
+	}
+
+.instructions-fields:empty {
+	display: none;
+	}

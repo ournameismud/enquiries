@@ -1,0 +1,93 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Enquiries plugin for Craft CMS 3.x
+ *
+ * Enquiries index.twig
+ *
+ * @author    @cole007
+ * @copyright Copyright (c) 2018 @cole007
+ * @link      http://ournameismud.co.uk/
+ * @package   Enquiries
+ * @since     1.0.0
+ */
+#}
+
+{% extends 'enquiries/layout/_cp' %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\enquiries\\EnquiriesAsset") %}
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\submissionscpsection\\SubmissionsCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/ournameismud/enquiries/blob/master/README.md" %}
+
+{% set title = "Enquiries | Submissions" %}
+
+{% set pluginCpUrl = url('enquiries') %}
+
+{% set selectedTab = 'submissions' %}
+{% set form = craft.enquiries.form( form ) %}
+
+{% set crumbs = [
+    { label: "Enquiries", url: url(pluginCpUrl) },
+    { label: "Submissions"|t('enquiries'), url: url(pluginCpUrl ~ '/submissions') },
+] %}
+
+{% set content %}
+    <dl class="enquiries-list">
+    <dt>Form</dt>
+    <dd>
+        <a href="{{ url(pluginCpUrl ~ '/forms/' ~ form.id ) }}">{{ form.formName }}</a>
+    </dd>
+    <dt>Posted</dt>
+    <dd>{{ dateUpdated|date('j M Y') }}</dd>
+    {% for key, row in message|json_decode(true) %}
+        <dt>{{ key|replace('-',' ')|ucwords }}</dt>
+        <dd>
+            {% if row is iterable %}
+                {{ row|implode('<br />')|raw }}
+            {% else %}
+                {{ row }}
+            {% endif %}
+        </dd>
+    {% endfor %}
+    </dl>
+
+
+    <style>
+    .enquiries-list {
+        /*background: red;        */
+        max-width: 800px;
+        background: white;
+        padding: 0 15px 15px;
+        border: 1px solid #CCC;
+        border-radius: 2px;
+        box-shadow: 2px 2px 2px #EEE;
+    }
+    .enquiries-list:after {
+        content: '';
+        display: block;        
+        clear: both;
+    }
+    .enquiries-list dt, .enquiries-list dd {
+        margin-top: 10px;        
+        padding-top: 5px;
+        border-top: 1px solid #eee;
+    }
+    .enquiries-list dt:first-of-type, .enquiries-list dt:first-of-type + dd {
+        border: none;
+    }
+    
+    .enquiries-list dt {
+        font-weight: bold;
+        float: left;
+        clear: left;
+        width: 25%;
+    }
+    .enquiries-list dd {
+        float: left;
+        width: 60%;
+        margin-left: 5%;
+    }
+    </style>
+{% endset %}

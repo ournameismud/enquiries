@@ -1,0 +1,37 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Enquiries plugin for Craft CMS 3.x
+ *
+ * Form Field Input
+ *
+ * @author    @cole007
+ * @copyright Copyright (c) 2018 @cole007
+ * @link      http://ournameismud.co.uk/
+ * @package   Enquiries
+ * @since     1.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+{% set formsData = craft.enquiries.getForms() %}
+{% set formOpts = [{
+	label: 'Choose a Form',
+	value: '',
+	disabled: true
+}] %}
+{% for form in formsData %}
+	{% set formOpts = formOpts|merge([{
+		label: form.formName,
+		value: form.id
+}]) %}
+{% endfor %}
+{{ forms.selectField({
+        label: 'Form',
+        instructions: 'Choose an <a href="' ~ url('enquiries/forms') ~ '" target="_blank">Enquiry Form</a>',
+        id: name,
+        name: name,
+        options: formOpts,
+        value: value})
+}}

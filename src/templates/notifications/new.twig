@@ -1,0 +1,112 @@
+{% extends 'enquiries/layout/_cp' %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\enquiries\\EnquiriesAsset") %}
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\notificationscpsection\\NotificationsCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/ournameismud/enquiries/blob/master/README.md" %}
+
+{% set title = "Enquiries > Notifications" %}
+{% set fullPageForm = true %}
+
+{% set pluginCpUrl = url('enquiries') %}
+
+{% set crumbs = [
+    { label: "Enquiries", url: url(pluginCpUrl) },
+    { label: "Notifications", url: url(pluginCpUrl ~ '/notifications') },
+] %}
+
+{% set fieldKeys = ['label',
+        'instructions',
+        'type',
+        'required',
+        'submissionLabel',
+        'options'] %}
+
+{% set selectedTab = 'notifications' %}
+
+{% set content %}
+	
+	<input type="hidden" name="action" value="enquiries/notification/update" />
+	<input type="hidden" name="notificationId" value="{{ notificationId is defined ? notificationId : null }}" />	
+
+	{% set formsData = craft.enquiries.getForms() %}
+	{% set formOpts = [{
+		label: 'Choose a form',
+		value: '',
+		disabled: false
+	}] %}
+	{% set typeIndex = fieldKeys|array_search('type') %}
+	{% set labelIndex = fieldKeys|array_search('label') %}
+	{% set emailFieldsCurrent = '' %}
+	{% set emailFields = {} %}
+	{% for formRecord in formsData %}
+		{% set formTmp = [] %}
+		{% set formOpts = formOpts|merge([{
+			label: formRecord.formName,
+			value: formRecord.id
+		}]) %}
+		{% set fieldsTmp = formRecord.formFields|json_decode(true) %}
+		{% for field in fieldsTmp if field[typeIndex] == 'email' %}
+		{% set formTmp = formTmp|merge([ field[labelIndex]|lower|replace(' ','_') ]) %}
+		{% endfor %}
+		{% set emailFields = formTmp|length ? emailFields|merge({ ('form_' ~ formRecord.id) : '{' ~ formTmp|implode('},{') ~ '}' }) : emailFields %}
+		{% set emailFieldsCurrent = form is defined and form > 0 ? '{' ~ formTmp|implode('},{') ~ '}' : emailFieldsCurrent %}
+		{# {{ fieldsTmp[typeIndex] }} #}
+		{# {% set emailFields = fieldsTmp[typeIndex] emailFields|merge() } #}
+		{# {{ dump(fieldsTmp) }} #}
+	{% endfor %}
+	<script>
+		var emailFields = {{ emailFields|json_encode|raw }};
+		var emailFieldsCurrent = '{{ emailFieldsCurrent|raw }}';
+	</script>	
+	
+	{{ forms.selectField({
+	        label: 'Form',
+	        instructions: 'Choose form.',
+	        id: 'form',
+	        name: 'form',
+	        options: formOpts,
+	        required: true,
+	        value: form is defined ? form })
+	}}
+
+	{{ forms.textField({
+		    label: 'Recipient(s)',
+		    instructions: 'Comma-separated list of email addresses. The following tags can be used:',
+		    id: 'recipients',
+		    name: 'recipients',
+		    required: true,
+		    value: recipients is defined ? recipients })
+	}}
+	
+	{{ forms.textField({
+		    label: 'Subject',
+		    id: 'subject',
+		    name: 'subject',
+		    required: true,
+		    value: subject is defined ? subject })
+	}}
+
+	{{ forms.textareaField({
+		    label: 'Message',
+		    id: 'message',
+		    name: 'message',
+		    rows: 8,
+		    value: message is defined ? message })
+	}}
+
+	{{ forms.lightswitchField({
+		    label: 'Copy Fields',
+		    instructions: 'Append submission fields to this message?',
+		    id: 'copyFields',
+		    name: 'copyFields',
+		    value: 1,
+		    on: copyFields is defined ? copyFields })
+	}}
+
+{% endset %}
+
+{% set js %}
+alert('plop!');
+{% endset %}

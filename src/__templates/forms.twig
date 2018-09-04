@@ -1,0 +1,53 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Enquiries plugin for Craft CMS 3.x
+ *
+ * Enquiries index.twig
+ *
+ * @author    @cole007
+ * @copyright Copyright (c) 2018 @cole007
+ * @link      http://ournameismud.co.uk/
+ * @package   Enquiries
+ * @since     1.0.0
+ */
+#}
+
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\enquiries\\EnquiriesAsset") %}
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\formscpsection\\FormsCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/ournameismud/enquiries/blob/master/README.md" %}
+
+{% set title = "Enquiries | Forms" %}
+
+{% set pluginCpUrl = url('enquiries') %}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl('@ournameismud/enquiries/assetbundles/formscpsection/dist', true) ~ '/img/Forms-icon.svg' %}
+
+{% set subnav = {
+    "forms": { label: "Forms"|t('enquiries'), url: url(pluginCpUrl ~ '/forms') },
+    "notifications": { label: "Notifications"|t('enquiries'), url: url(pluginCpUrl ~ '/notifications') },
+    "submissions": { label: "Submissions"|t('enquiries'), url: url(pluginCpUrl ~ '/submissions') },
+
+} %}
+{% set selectedSubnavItem = 'forms' %}
+
+{% set crumbs = [
+    { label: "Enquiries", url: url(pluginCpUrl) },
+    { label: "Forms"|t('enquiries'), url: url(pluginCpUrl ~ '/forms') },
+] %}
+
+{% set extraPageHeaderHtml %}
+    <div class="buttons">
+        <a href="{{ pluginCpUrl }}" class="btn submit add icon">{{ "Click Me!"|t('enquiries') }}</a>
+    </div>
+{% endset %}
+
+{% set content %}
+    <h2>{{ "Forms CP Section body goes here"|t('enquiries') }}</h2>
+    <img src="{{ iconUrl }}" height="64" width="64" />
+    <p class="textline"></p>
+{% endset %}

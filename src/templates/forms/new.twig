@@ -1,0 +1,97 @@
+{% extends 'enquiries/layout/_cp' %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\enquiries\\EnquiriesAsset") %}
+{# {% do view.registerAssetBundle("craft\\redactor\\assets\\field") %} #}
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\formscpsection\\FormsCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/ournameismud/enquiries/blob/master/README.md" %}
+
+{% set title = "Enquiries > " ~ (formName is defined ? formName : "New Form") %}
+
+{% set pluginCpUrl = url('enquiries') %}
+{% set fullPageForm = true %}
+
+{% set crumbs = [
+    { label: "Enquiries", url: url(pluginCpUrl) },
+    { label: "Forms", url: url(pluginCpUrl ~ '/forms') },
+] %}
+
+{% set selectedTab = 'forms' %}
+
+
+{% set content %}    
+
+    <input type="hidden" name="action" value="enquiries/form/update" />
+    <input type="hidden" name="formId" value="{{ formId is defined ? formId : null }}" />
+
+
+    {{ forms.textField({
+        label: 'Form name',
+        id: 'formName',
+        name: 'formName',
+        value: formName is defined ? formName })
+    }}
+ 
+    {{ forms.textareaField({
+        label: 'Form Intro',
+        id: 'formIntro',
+        name: 'formIntro',
+        fieldType: 'craft\\redactor\\Field',
+        value: formIntro is defined ? formIntro }) 
+    }}    
+
+    {{ forms.editableTableField({
+        cols: [{
+            heading: 'Field Label',
+            type: 'text',
+            required: true            
+        },{
+            heading: 'Instructions',
+            type: 'default'
+        },{
+            heading: 'Field Type',
+            type: 'select',
+            options: [{
+                label: 'Single line Text',
+                value: 'singline',
+            },{
+                label: 'Multiline Text',
+                value: 'multiline',
+            },{
+                label: 'Email',
+                value: 'email',
+            },{
+                label: 'Date',
+                value: 'date',
+            },{
+                label: 'Dropdown',
+                value: 'dropdown',
+            },{
+                label: 'Checkboxes',
+                value: 'checkbox',
+            },{
+                label: 'Radio',
+                value: 'radio',
+            }]
+        },{
+            heading: 'Required?',
+            type: 'lightswitch'
+        },{
+            heading: 'Use for Submissions label',
+            type: 'lightswitch'
+        },{
+            heading: 'Options',
+            type: 'default',
+            info: 'For Dropdown, Checkbox and Radio fields please provide a list of options (one per line)'
+        }],
+        label: 'Form Fields',
+        id: 'formFields',
+        name: 'formFields',
+        rows: formFields is defined ? formFields})
+    }}
+
+    
+{% endset %}
+
+

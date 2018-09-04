@@ -1,0 +1,45 @@
+{
+    "name": "ournameismud/enquiries",
+    "description": "Plugin to log enquiries and manage notifications",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "enquiries"
+    ],
+    "support": {
+        "docs": "https://github.com/ournameismud/enquiries/blob/master/README.md",
+        "issues": "https://github.com/ournameismud/enquiries/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "@cole007",
+            "homepage": "http://ournameismud.co.uk/"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "ournameismud\\enquiries\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Enquiries",
+        "handle": "enquiries",
+        "hasCpSettings": true,
+        "hasCpSection": true,
+        "changelogUrl": "https://raw.githubusercontent.com/ournameismud/enquiries/master/CHANGELOG.md",
+        "components": {
+            "forms": "ournameismud\\enquiries\\services\\Forms",
+            "notifications": "ournameismud\\enquiries\\services\\Notifications",
+            "submissions": "ournameismud\\enquiries\\services\\Submissions"
+        },
+        "class": "ournameismud\\enquiries\\Enquiries"
+    }
+}

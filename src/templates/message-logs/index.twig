@@ -1,0 +1,68 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Enquiries plugin for Craft CMS 3.x
+ *
+ * Enquiries index.twig
+ *
+ * @author    @cole007
+ * @copyright Copyright (c) 2018 @cole007
+ * @link      http://ournameismud.co.uk/
+ * @package   Enquiries
+ * @since     1.0.0
+ */
+#}
+
+{% extends 'enquiries/layout/_cp' %}
+{% import "_includes/forms" as forms %}
+
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\enquiries\\EnquiriesAsset") %}
+{% do view.registerAssetBundle("ournameismud\\enquiries\\assetbundles\\submissionscpsection\\SubmissionsCPSectionAsset") %}
+
+{% set docsUrl = "https://github.com/ournameismud/enquiries/blob/master/README.md" %}
+
+{% set title = "Enquiries | Submissions" %}
+
+{% set pluginCpUrl = url('enquiries') %}
+
+{% set selectedTab = 'message-logs' %}
+
+{% set crumbs = [
+    { label: "Enquiries", url: url(pluginCpUrl) },
+    { label: "Message Logs"|t('enquiries'), url: url(pluginCpUrl ~ '/message-logs') },
+] %}
+
+{% set content %}
+    
+    {% set messageLogs = craft.enquiries.getMessageLogs %}
+    
+    <div class="tableview">
+        <table class="data fullwidth">
+            <thead>
+                <tr>
+                    <th>Message ID</th>
+                    <th>Form</th>
+                    <th>Recipient</th>
+                    <th>Subject</th>
+                    <th>Sent</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for message in messageLogs %}
+            {% set form = craft.enquiries.form( message.form ) %}
+            <tr>
+                <td>{{ message.id }}</td>
+                <td><a href="{{ url(pluginCpUrl ~ '/form/' ~ form.id ) }}">{{ form.formName }}</a></td>
+                <td>{{ message.recipient }}</td>
+                <td>
+                    <a href="{{ url(pluginCpUrl ~ '/message-logs/' ~ message.id) }}">
+                        {{ message.subject }}
+                    </a>
+                </td>
+                <td>{{ message.dateUpdated|date('j M Y') }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endset %}
