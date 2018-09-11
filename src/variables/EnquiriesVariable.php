@@ -103,6 +103,7 @@ class EnquiriesVariable
 
     public function form($formId)
     {
+        if (!$formId) return null;
         $formRecord = FormRecord::find()
             ->where(['id'=>$formId])->one();
         // if count == null return false

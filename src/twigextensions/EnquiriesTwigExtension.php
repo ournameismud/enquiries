@@ -63,8 +63,8 @@ class EnquiriesTwigExtension extends \Twig_Extension
      */
     public function json_decode($string, $array = false)
     {
-        $output = json_decode($string);
-        if ($array) $output = (array) $output;
+        $output = json_decode($string, $array);
+        // if ($array) $output = (array) $output;
         return $output;
     }
 

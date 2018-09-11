@@ -42,7 +42,7 @@
     <dt>Posted</dt>
     <dd>{{ dateUpdated|date('j M Y') }}</dd>
     {% for key, row in message|json_decode(true) %}
-        <dt>{{ key|replace('-',' ')|ucwords }}</dt>
+        <dt>{{ key|replace('_',' ')|ucwords }}</dt>
         <dd>
             {% if row is iterable %}
                 {{ row|implode('<br />')|raw }}

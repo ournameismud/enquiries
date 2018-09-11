@@ -60,7 +60,7 @@
                 {# {% set label = label ~ ' ' ~ submission|slice(formLabel) %} #}
             {% endfor %}
             <tr>
-                <td>{{ submission.id }}</td>
+                <td><a href="{{ url(pluginCpUrl ~ '/submissions/' ~ submission.id ) }}">{{ submission.id }}</a></td>
                 <td><a href="{{ url(pluginCpUrl ~ '/submissions/' ~ submission.id ) }}">{{ label|implode }}</a></td>
                 <td><a href="{{ url(pluginCpUrl ~ '/form/' ~ form.id ) }}">{{ form.formName }}</a></td>
                 <td>{{ submission.dateUpdated|date('j M Y') }}</td>
