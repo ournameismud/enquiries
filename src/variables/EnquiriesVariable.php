@@ -17,6 +17,7 @@ use ournameismud\enquiries\records\Submissions as SubmissionRecord;
 use ournameismud\enquiries\records\MessageLogs as MessageLogRecord;
 
 use Craft;
+use craft\helpers\StringHelper;
 
 /**
  * @author    @cole007
@@ -111,6 +112,7 @@ class EnquiriesVariable
         $formRecord->formFields = json_decode($formRecord->formFields);
         $fields = [];
         foreach ($formRecord->formFields AS $key => $value) {
+            
             $fieldTmp = [];
             foreach ($value AS $subKey => $subValue) {
                 $tmpKey = $this->fieldKeys[$subKey];                
@@ -119,7 +121,21 @@ class EnquiriesVariable
             }
             $fields[] = $fieldTmp;
         }
-        $formRecord->formFields = $fields;
+
+        $index = 0;
+        $fieldsets = [];
+        foreach ($fields AS $field) {
+            if ($field['type'] == 'legend') $index = StringHelper::toSnakeCase($field['label']);
+            if (!array_key_exists($index, $fieldsets)) {
+                $fieldsets[$index]['legend'] = $field['label'];
+                $fieldsets[$index]['fields'] = [];
+            } else {
+                $fieldsets[$index]['fields'][] = $field;
+            }
+            
+        }
+        $formRecord->formFields = $fieldsets;
+
         return $formRecord;
     }
     
