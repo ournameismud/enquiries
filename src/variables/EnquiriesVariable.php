@@ -127,15 +127,13 @@ class EnquiriesVariable
         foreach ($fields AS $field) {
             if ($field['type'] == 'legend') $index = StringHelper::toSnakeCase($field['label']);
             if (!array_key_exists($index, $fieldsets)) {
-                $fieldsets[$index]['legend'] = $field['label'];
+                $fieldsets[$index]['legend'] = $index != 0 ? $field['label'] : '';
                 $fieldsets[$index]['fields'] = [];
-            } else {
-                $fieldsets[$index]['fields'][] = $field;
-            }
+            } 
+            if ($field['type'] != 'legend') $fieldsets[$index]['fields'][] = $field;
             
         }
         $formRecord->formFields = $fieldsets;
-
         return $formRecord;
     }
     
