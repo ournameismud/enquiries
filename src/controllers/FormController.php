@@ -31,6 +31,7 @@ class FormController extends Controller
     protected $fieldKeys = [
         'label',
         'instructions',
+        'size',
         'type',
         'required',
         'submissionLabel',

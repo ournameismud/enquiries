@@ -2,7 +2,7 @@
     "name": "ournameismud/enquiries",
     "description": "Plugin to log enquiries and manage notifications",
     "type": "craft-plugin",
-    "version": "1.0.3",
+    "version": "1.0.3.1",
     "keywords": [
         "craft",
         "cms",

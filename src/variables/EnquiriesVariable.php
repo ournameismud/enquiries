@@ -36,6 +36,7 @@ class EnquiriesVariable
     protected $fieldKeys = [
         'label',
         'instructions',
+        'size',
         'type',
         'required',
         'submissionLabel',
