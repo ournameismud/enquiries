@@ -46,6 +46,7 @@
             heading: 'Field Label',
             type: 'text',
             required: true            
+            width: 140
         },{
             heading: 'Instructions',
             type: 'default'
@@ -96,11 +97,16 @@
             type: 'lightswitch'
         },{
             heading: 'Use for Submissions label',
+            info: 'Use this field for Submissions label when showing form submissions?',
             type: 'lightswitch'
         },{
             heading: 'Options',
             type: 'default',
             info: 'For Dropdown, Checkbox and Radio fields please provide a list of options (one per line)'
+            width: 140
+        },{
+            heading: 'Placeholder',
+            type: 'text'
         }],
         label: 'Form Fields',
         id: 'formFields',
@@ -111,4 +117,18 @@
     
 {% endset %}
 
+{% js on ready %}
+    function drinkMe( field ) {
+        var ht = $( field )[0].scrollHeight;
+        $( field ).height( ht );
+    }
+    $('#formFields').find('tr').each(function(index) {
+        $(this).find('textarea').each( function() {
+            drinkMe( this );
+        });
+    });
+    $('#formFields').on('blur','textarea',function() {
+        drinkMe( this );
+    });
+{% endjs %}
 

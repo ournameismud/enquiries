@@ -41,6 +41,7 @@ class EnquiriesVariable
         'required',
         'submissionLabel',
         'options',
+        'placeholder',
     ];
 
     public function exampleVariable($optional = null)
